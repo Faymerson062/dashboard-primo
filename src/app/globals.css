@@ -1,26 +1,88 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: hsl(222 47% 6%);
+  --foreground: hsl(210 40% 98%);
+  --card: hsl(222 47% 8%);
+  --card-foreground: hsl(210 40% 98%);
+  --popover: hsl(222 47% 10%);
+  --popover-foreground: hsl(210 40% 98%);
+  --primary: hsl(199 89% 48%);
+  --primary-foreground: hsl(222 47% 6%);
+  --secondary: hsl(217 33% 17%);
+  --secondary-foreground: hsl(210 40% 98%);
+  --muted: hsl(217 33% 17%);
+  --muted-foreground: hsl(215 20% 55%);
+  --accent: hsl(280 65% 60%);
+  --accent-foreground: hsl(210 40% 98%);
+  --success: hsl(142 71% 45%);
+  --destructive: hsl(0 84% 60%);
+  --border: hsl(217 33% 17%);
+  --sidebar: hsl(222 47% 7%);
+
+  --gradient-primary: linear-gradient(135deg, hsl(199 89% 48%), hsl(280 65% 60%));
+  --gradient-card: linear-gradient(145deg, hsl(222 47% 10%), hsl(222 47% 6%));
+  --shadow-glow: 0 0 40px hsl(199 89% 48% / 0.15);
+  --shadow-card: 0 4px 24px hsl(0 0% 0% / 0.25);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-sidebar: var(--sidebar);
+  --font-sans: var(--font-geist-sans), "Inter", system-ui, sans-serif;
+  --radius: 0.75rem;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer utilities {
+  .glass {
+    background: color-mix(in srgb, var(--card) 80%, transparent);
+    backdrop-filter: blur(24px);
+    border: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  }
+  .glow {
+    box-shadow: var(--shadow-glow);
+  }
+  .gradient-text {
+    background-image: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 20px hsl(199 89% 48% / 0.3); }
+  50% { opacity: 0.8; box-shadow: 0 0 40px hsl(199 89% 48% / 0.5); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
+.animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
