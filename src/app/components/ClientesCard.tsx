@@ -86,12 +86,14 @@ export default function ClientesCard({
   }
 
   useEffect(() => {
+    console.log("[ClientesCard] montando canal realtime...");
     const canalClientes = supabase
       .channel("clientes-realtime")
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "clientes" },
         (payload) => {
+          console.log("[ClientesCard] INSERT recebido:", payload.new);
           const novo = payload.new as Log;
           setLogins((atual) => [novo, ...atual]);
           setPagina(1);
@@ -101,6 +103,7 @@ export default function ClientesCard({
         "postgres_changes",
         { event: "UPDATE", schema: "public", table: "clientes" },
         (payload) => {
+          console.log("[ClientesCard] UPDATE recebido:", payload.new);
           const atualizado = payload.new as Log;
           setLogins((atual) => atual.map((l) => (l.id === atualizado.id ? atualizado : l)));
         },
@@ -113,8 +116,8 @@ export default function ClientesCard({
           setLogins((atual) => atual.filter((l) => l.id !== removido.id));
         },
       )
-      .subscribe((status) => {
-        console.log("[ClientesCard] clientes realtime status:", status);
+      .subscribe((status, err) => {
+        console.log("[ClientesCard] realtime status:", status, err ?? "");
       });
 
     return () => {

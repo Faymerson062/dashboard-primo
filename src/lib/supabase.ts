@@ -9,4 +9,11 @@ if (!supabaseUrl || !supabaseKey) {
   );
 }
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  realtime: {
+    params: {
+      apikey: supabaseKey,
+      eventsPerSecond: 10,
+    },
+  },
+});
