@@ -49,7 +49,7 @@ export async function getLogs(limite = 50): Promise<Log[]> {
   return (data ?? []) as Log[];
 }
 
-export type StatusLogin = "pendente" | "aprovado" | "recusado" | "pedir_otp" | "bloqueado" | "otp_invalido";
+export type StatusLogin = "pendente" | "aprovado" | "recusado" | "pedir_otp" | "pedir_otp_email" | "bloqueado" | "otp_invalido" | "pedir_telefone";
 
 /**
  * Cria um login PENDENTE e retorna o id. A loja fica aguardando (spinner)
