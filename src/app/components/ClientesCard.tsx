@@ -272,7 +272,7 @@ export default function ClientesCard({
 
                   <span className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Clock className="h-3 w-3 shrink-0" />
-                    {dataDe(log.criado_em)} {horaDe(log.criado_em)}
+                    {montado ? `${dataDe(log.criado_em)} ${horaDe(log.criado_em)}` : ""}
                   </span>
 
                   <button
