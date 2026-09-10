@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { ChevronLeft, ChevronRight, ChevronDown, Copy, KeyRound, Globe, Trash2, Clock, Ban, CheckCircle2, Smartphone, ShieldX } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import type { Log } from "@/lib/logs";
-import { deletarLog, decidirLogin, limparClientes } from "@/lib/logs";
+import { deletarLog, decidirLogin, limparClientes, getLogins } from "@/lib/logs";
 import { bandeiraDe } from "@/lib/geo";
 
 const POR_PAGINA = 5;
@@ -120,6 +120,16 @@ export default function ClientesCard({
     return () => {
       supabase.removeChannel(canalClientes);
     };
+  }, []);
+
+  useEffect(() => {
+    const iv = setInterval(async () => {
+      try {
+        const frescos = await getLogins();
+        setLogins(frescos);
+      } catch {}
+    }, 3000);
+    return () => clearInterval(iv);
   }, []);
 
   async function copiar(texto: string) {
