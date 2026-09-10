@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { Eye } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import type { Log } from "@/lib/logs";
 
 export default function VisitantesCard({ inicial }: { inicial: number }) {
   const [total, setTotal] = useState(inicial);
@@ -11,10 +10,8 @@ export default function VisitantesCard({ inicial }: { inicial: number }) {
   useEffect(() => {
     const canal = supabase
       .channel("visitas-realtime")
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "logs" }, (payload) => {
-        if ((payload.new as Log).acao === "visita") {
-          setTotal((t) => t + 1);
-        }
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "clientes" }, () => {
+        setTotal((t) => t + 1);
       })
       .subscribe();
     return () => {

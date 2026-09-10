@@ -1,20 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Search, Heart, ShoppingCart, Star, Menu, User } from "lucide-react";
 import { PRODUTOS, CATEGORIAS, type ProdutoMock } from "@/lib/mock";
 import { usePresenca } from "@/lib/usePresenca";
-import { registrarVisita } from "@/lib/logs";
 
 const formatBRL = (n: number) =>
   n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
 export default function Loja() {
   usePresenca(true);
-
-  useEffect(() => {
-    registrarVisita();
-  }, []);
 
   const [categoria, setCategoria] = useState("Todos");
   const [carrinho, setCarrinho] = useState<ProdutoMock[]>([]);

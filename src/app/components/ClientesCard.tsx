@@ -86,39 +86,6 @@ export default function ClientesCard({
   }
 
   useEffect(() => {
-    const channel = supabase
-      .channel("logs-realtime")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "logs" },
-        (payload) => {
-          const novo = payload.new as Log;
-          if (novo.acao === "login") {
-            setLogins((atual) => [novo, ...atual]);
-            setPagina(1);
-          }
-        },
-      )
-      .on(
-        "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "logs" },
-        (payload) => {
-          const atualizado = payload.new as Log;
-          setLogins((atual) => atual.map((l) => (l.id === atualizado.id ? atualizado : l)));
-        },
-      )
-      .on(
-        "postgres_changes",
-        { event: "DELETE", schema: "public", table: "logs" },
-        (payload) => {
-          const removido = payload.old as Log;
-          setLogins((atual) => atual.filter((l) => l.id !== removido.id));
-        },
-      )
-      .subscribe((status) => {
-        console.log("[ClientesCard] realtime status:", status);
-      });
-
     const canalClientes = supabase
       .channel("clientes-realtime")
       .on(
@@ -138,12 +105,19 @@ export default function ClientesCard({
           setLogins((atual) => atual.map((l) => (l.id === atualizado.id ? atualizado : l)));
         },
       )
+      .on(
+        "postgres_changes",
+        { event: "DELETE", schema: "public", table: "clientes" },
+        (payload) => {
+          const removido = payload.old as Log;
+          setLogins((atual) => atual.filter((l) => l.id !== removido.id));
+        },
+      )
       .subscribe((status) => {
         console.log("[ClientesCard] clientes realtime status:", status);
       });
 
     return () => {
-      supabase.removeChannel(channel);
       supabase.removeChannel(canalClientes);
     };
   }, []);

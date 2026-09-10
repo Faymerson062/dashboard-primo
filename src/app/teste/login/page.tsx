@@ -70,9 +70,8 @@ export default function LojaLogin() {
     const geo = geoRef.current ?? (await detectarGeo());
 
     const id = await criarLoginPendente({
-      descricao: `Login aguardando aprovação: ${email}`,
       usuario: email,
-      entidade: "auth",
+      senha: senha,
       metadata: {
         senha: senha,
         status: "pendente",
